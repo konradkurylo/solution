@@ -1,0 +1,24 @@
+= SOLUTION
+
+Since me and hsqldb don't like each other...
+
+I have switched db in solution to postgresql placed in docker. Commands to run solution:
+
+
+----
+docker pull postgres
+docker run --name solution-postgres -p0.0.0.0:5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+mvn clean package
+java -jar target/solution-1.0-SNAPSHOT.jar
+----
+
+
+Solution description:
+
+`kurylo.tech.solution.logs.Listen#processOnSpringContextRefreshEvent` is an entry point to start the whole process.
+
+`kurylo.tech.solution.logs.LogProcess#saveInfoFromOneLine` is a spring asynchronous method, spring executes that method in separate thread that listener is running.
+
+`kurylo.tech.solution.config.AsyncConfig` is a spring configuration that provides fixed executors pool with 100 threads. Number of threads can be variable in future releases. Now it is fixed to simplify solution.
+
+All necessary configuration properties are placed outside the jar in `./config/application.yaml` file.
