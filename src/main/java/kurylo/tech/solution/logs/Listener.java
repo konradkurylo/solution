@@ -18,7 +18,6 @@ import java.nio.file.Paths;
 class Listener {
     private final LogProcess logProcess;
 
-    @EventListener(value = ContextRefreshedEvent.class)
     public void processOnSpringContextRefreshEvent() throws IOException {
         log.debug("listen");
         Path path = Paths.get("logfile.txt");
